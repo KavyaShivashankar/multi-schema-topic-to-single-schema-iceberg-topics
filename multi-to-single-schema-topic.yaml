@@ -1,0 +1,43 @@
+input:
+  kafka_franz:
+    seed_brokers: [ "seed-xx.byoc.prd.cloud.redpanda.com:9092" ]
+    topics: [ "raw-topic" ]
+    consumer_group: "mygroup"
+    tls:
+      enabled: true
+    sasl:
+      - mechanism: SCRAM-SHA-256
+        username: ks
+        password: kspwd
+
+
+  processors:
+    - schema_registry_decode:
+        url: "https://schema-registry-xx.byoc.prd.cloud.redpanda.com:30081"
+        avro_raw_json: true
+        basic_auth:
+          enabled: true
+          username: ks
+          password: xxx
+
+    - mapping: |
+        # Example: Route based on a field or schema type
+        #if this.type == "A" {
+        #  meta output_topic = "output_topic_a"
+        #} else if this.type == "B" {
+        #  meta output_topic = "output_topic_b"
+        #} else {
+        #  meta output_topic = "output_topic_default"
+        #}
+        if this.make == "Tesla" {
+            meta output_topic = "car-topic"
+        } else if this.make == "Honda" {
+            meta output_topic = "van-topic"
+        } else {
+            meta output_topic = "bike-topic"
+        }
+
+
+output:
+  kafka_franz:
+    seed_brokers: [ "seed-xx.byoc.prd.cloud.redpanda.com:9092" ]
