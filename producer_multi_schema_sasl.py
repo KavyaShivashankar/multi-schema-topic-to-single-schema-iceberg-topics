@@ -25,7 +25,7 @@ TOPIC_NAME = "raw-topic"
 # IMPORTANT: Replace with your actual SASL username and password
 # For Redpanda Cloud, this is typically the cluster API key and secret.
 SASL_USERNAME = "ks"
-SASL_PASSWORD = "kspwd"
+SASL_PASSWORD = "ksxxx"
 # Use 'SASL_SSL' for encrypted communication, or 'SASL_PLAINTEXT' if SSL is not configured.
 # 'SASL_SSL' is highly recommended for production.
 SECURITY_PROTOCOL = "SASL_SSL"
